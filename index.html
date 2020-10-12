@@ -53,19 +53,19 @@
                 <label for="" class="form-label">Giới tính</label>
                 <div class="gender">
                     <div class="gender-option">
-                        <input type="checkbox" class="gender-input" name="gender" value="male">
+                        <input type="radio" class="gender-input" name="gender" value="male">
                         <span class="gender-label">
                             Nam
                         </span>
                     </div>
                     <div class="gender-option">
-                        <input type="checkbox" class="gender-input" name="gender" value="female">
+                        <input type="radio" class="gender-input" name="gender" value="female">
                         <span class="gender-label">
                             Nữ
                         </span>
                     </div>
                     <div class="gender-option">
-                        <input type="checkbox" class="gender-input" name="gender" value="other">
+                        <input type="radio" class="gender-input" name="gender" value="other">
                         <span class="gender-label">
                             Khác
                         </span>
@@ -74,6 +74,12 @@
                 <span class="form-message">
                 </span>
             </div>
+            <!-- <div class="form-group">
+                <label for="file" class="form-label">Tỉnh/TP</label>
+                <input type="file" class="form-input" id="file" name="file">
+                <span class="form-message">
+                </span>
+            </div> -->
             <div class="form-group">
                 <label for="province" class="form-label">Tỉnh/TP</label>
                 <select class="form-input form-select" id="province" name="province">
@@ -95,9 +101,9 @@
 
     </script>
     <script>
-        const colors = ['#2196f3', '#e91e63', '#ffeb3b', '#74ff1b']
+        const colors = ['#2196f3', '#e91e63', '#ffeb3b', '#74ff1b', 'white']
         function createSquare() {
-            const section = document.querySelector('section');
+            const section = document.querySelector('.main');
             const square = document.createElement('span');
             square.classList.add('square')
             var size = Math.random() * 50;
@@ -110,9 +116,9 @@
 
             setTimeout(() => {
                 square.remove();
-            }, 5000);
+            }, 4000);
         }
-        setInterval(createSquare, 150);
+        setInterval(createSquare, 100);
 
     </script>
     <script>
@@ -122,17 +128,18 @@
             erorrClass: 'error',
             formGroup: '.form-group',
             rules: [
-                // Validator.isRequired('#fullname', 'Vui lòng nhập đầy đủ họ tên của bạn'),
-                // Validator.isRequired('#email', 'Không được để trống email'),
-                // Validator.isEmail('#email'),
-                // Validator.isRequired('#password', 'Mật khẩu không được để trống'),
-                // Validator.minLength('#password', 6, 'Mật khẩu tối thiểu phải có 6 kí tự'),
-                // Validator.isRequired('#password-comfirmation'),
-                // Validator.isConfirmed('#password-comfirmation', function () {
-                //     return document.querySelector('#form-1 #password').value;
-                // }, 'Mật khẩu nhập lại không chính xác'),
-                // Validator.isRequired("input[name='gender']"),
-                // Validator.isRequired('#province', 'Vui lòng chọn tỉnh thành')
+                Validator.isRequired('#fullname', 'Vui lòng nhập đầy đủ họ tên của bạn'),
+                Validator.isRequired('#email', 'Không được để trống email'),
+                Validator.isEmail('#email'),
+                Validator.isRequired('#password', 'Mật khẩu không được để trống'),
+                Validator.minLength('#password', 6, 'Mật khẩu tối thiểu phải có 6 kí tự'),
+                Validator.isRequired('#password-comfirmation'),
+                Validator.isConfirmed('#password-comfirmation', function () {
+                    return document.querySelector('#form-1 #password').value;
+                }, 'Mật khẩu nhập lại không chính xác'),
+                Validator.isRequired("input[name='gender']"),
+                Validator.isRequired("#file"),
+                Validator.isRequired('#province', 'Vui lòng chọn tỉnh thành')
             ],
             onSubmit: function (data) {
                 console.log(data);

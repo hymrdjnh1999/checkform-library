@@ -6,9 +6,11 @@
 }
 
 .main{
+    position: fixed;
+    overflow: hidden;
+    height: 100vh;
     background-color: #000;
     display: flex;
-    position: fixed;
     top: 0;
     right: 0;
     left: 0;
@@ -19,7 +21,7 @@
 }
 .square{
     position: absolute;
-    background-color: white;
+    background-color: #ffffff;
     pointer-events: none;
     animation:  animate 5s linear infinite;
 
@@ -41,16 +43,12 @@
 
     }
 }
-section{
-        height: 100vh;
-        z-index: 0;
-}
+
 .form{
     padding: 0 20px;   
     background-color: rgba(255,255,255,0.9);
     border-radius: 2px;
     z-index: 1;
-    max-height: 100vh;
 }
 .heading{
     margin-top: 0;
@@ -120,7 +118,7 @@ section{
 .form-input:last-child{
     margin-bottom: 0;
 }
-.form-input:hover{
+.form-group .form-input:hover{
    border-color: #2cb;
 }
 
