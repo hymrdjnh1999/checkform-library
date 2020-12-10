@@ -30,49 +30,52 @@ function Validator(options) {
             var isFormValid = true;
             options.rules.forEach(function (rule) {
                 var inputElement = formElement.querySelector(rule.selector);
-                var errorMessage = validate(inputElement, rule);
-                if (!errorMessage) {
+                var hasError = validate(inputElement, rule);
+                if (hasError) {
                     isFormValid = false;
                 }
             });
-            if (!isFormValid) {
+            if (isFormValid) {
+                if (typeof options.onSubmit === 'function') {
+                    let enableInputs = formElement.querySelectorAll('[name]');
+                    let checkElement = undefined;
+                    let checkedSelector = '';
+                    let formValues = Array.from(enableInputs).reduce(function (values, input) {
+                        switch (input.type) {
+                            case 'radio':
+                                values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                                break;
+                            case 'checkbox':
+                                checkedSelector = input.name;
+                                if (input.matches(':checked')) {
+                                    checkElement = input;
+                                    if (!Array.isArray(values[input.name])) {
+                                        values[input.name] = [];
+                                    }
+                                    values[input.name].push(input.value);
+                                }
+                                break;
+                            case 'file':
+                                values[input.name] = input.files;
+                                break;
+                            default:
+                                values[input.name] = input.value;
+                        }
+                        return values;
+                    }, {});
+                    if (!checkElement) {
+                        formValues[checkedSelector] = '';
+                    }
+                    options.onSubmit(formValues);
+                }
+                else {
+                    formElement.submit();
+                }
+            }
+            else{
                 event.preventDefault();
             }
-            if (typeof options.onSubmit === 'function') {
-                let enableInputs = formElement.querySelectorAll('[name]');
-                let checkElement = undefined;
-                let checkedSelector = '';
-                let formValues = Array.from(enableInputs).reduce(function (values, input) {
-                    switch (input.type) {
-                        case 'radio':
-                            values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
-                            break;
-                        case 'checkbox':
-                            checkedSelector = input.name;
-                            if (input.matches(':checked')) {
-                                checkElement = input;
-                                if (!Array.isArray(values[input.name])) {
-                                    values[input.name] = [];
-                                }
-                                values[input.name].push(input.value);
-                            }
-                            break;
-                        case 'file':
-                            values[input.name] = input.files;
-                            break;
-                        default:
-                            values[input.name] = input.value;
-                    }
-                    return values;
-                }, {});
-                if (!checkElement) {
-                    formValues[checkedSelector] = '';
-                }
-                options.onSubmit(formValues);
-            }
-            else {
-                formElement.submit();
-            }
+
         }
         var rules = options.rules;
 
